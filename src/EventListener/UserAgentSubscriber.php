@@ -19,6 +19,11 @@ class UserAgentSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event)
     {
+        // Si c'est une subrequest ne rien faire
+        if (!$event->isMasterRequest()) {
+            return;
+        }
+
         $request = $event->getRequest();
         # Add response to Request Event stopping the Flow in HttpKernel.php -> handleRaw()
         # $event->setResponse(new Response('Stop flow'));

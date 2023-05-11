@@ -22,6 +22,11 @@ class IsMacArgumentValueResolver implements ArgumentValueResolverInterface
      */
     public function resolve(Request $request, ArgumentMetadata $argument)
     {
+        if ($request->query->has('macos')) {
+            yield $request->query->getBoolean('macos');
+            return;
+        }
+
         $userAgent = $request->headers->get('User-Agent');
         # Attention ! Must use yield, Resolve returns a Traversable
         yield strpos($userAgent, 'Mac') === true;
