@@ -14,7 +14,8 @@ class IsMacArgumentValueResolver implements ArgumentValueResolverInterface
      */
     public function supports(Request $request, ArgumentMetadata $argument)
     {
-        return $argument->getName() === 'isMacos';
+        # $request->attributes->has('_isMac') -> returns false for a subrequest
+        return $argument->getName() === 'isMac' && $request->attributes->has('_isMac');
     }
 
     /**
@@ -22,14 +23,15 @@ class IsMacArgumentValueResolver implements ArgumentValueResolverInterface
      */
     public function resolve(Request $request, ArgumentMetadata $argument)
     {
-        if ($request->query->has('macos')) {
-            yield $request->query->getBoolean('macos');
-            return;
-        }
+        yield $request->attributes->get('_isMac');
+        ## if ($request->query->has('macos')) {
+        ##     yield $request->query->getBoolean('mac');
+        ##     return;
+        ## }
 
-        $userAgent = $request->headers->get('User-Agent');
-        # Attention ! Must use yield, Resolve returns a Traversable
-        yield strpos($userAgent, 'Mac') === true;
+        ## $userAgent = $request->headers->get('User-Agent');
+        ## # Attention ! Must use yield, Resolve returns a Traversable
+        ## yield strpos($userAgent, 'Mac') === true;
     }
 
 }

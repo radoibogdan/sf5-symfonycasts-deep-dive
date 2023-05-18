@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class PartialController extends AbstractController
 {
@@ -11,13 +12,13 @@ class PartialController extends AbstractController
      *
      * Partial : article/trending_quotes_partial.html.twig
      */
-    public function trendingQuotes($isMacos)
+    public function trendingQuotes($isMac)
     {
         $quotes = $this->getTrendingQuotes();
 
         return $this->render('article/trending_quotes_partial.html.twig', [
             'quotes' => $quotes,
-            'isMacos' => $isMacos
+            'isMac' => $isMac
         ]);
     }
 

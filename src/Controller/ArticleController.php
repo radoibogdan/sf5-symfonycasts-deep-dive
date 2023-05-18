@@ -33,7 +33,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/", name="app_homepage")
      */
-    public function homepage(ArticleRepository $repository, LoggerInterface $logger, $isMacos, HttpKernelInterface $httpKernel)
+    public function homepage(ArticleRepository $repository, LoggerInterface $logger, $isMac, HttpKernelInterface $httpKernel)
     {
         $articles = $repository->findAllPublishedOrderedByNewest();
 
@@ -51,20 +51,20 @@ class ArticleController extends AbstractController
 
         return $this->render('article/homepage.html.twig', [
             'articles' => $articles,
-            'isMacos' => $isMacos
+            'isMac' => $isMac
         ]);
     }
 
     /**
      * @Route("/news/{slug}", name="article_show", defaults={"foo": "bar"})
      */
-    public function show($slug, SlackClient $slack, ArticleRepository $articleRepository, $isMac, $isMacos)
+    public function show($slug, SlackClient $slack, ArticleRepository $articleRepository, $isMac)
     {
         # dump argument added in Event Listener UserAgentSubscriber
-        dump($isMac);
+//        dump($isMac);
 
         # dump argument resolved from Service/IsMacArgumentValueResolver
-        dump($isMacos);
+//        dump($isMac);
 
         $article = $articleRepository->findOneBy(['slug' => $slug]);
         if (!$article) {
